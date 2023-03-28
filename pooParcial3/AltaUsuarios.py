@@ -8,9 +8,7 @@ controlador = ControladorBD()   #Nombre del objeto con la clase+
 
 #3. Botonnnn
 def EjecutaInsert():
-    controlador.guardarUsuario(varNom.get(),varCor.get(),varCon.get())
-
-
+    controlador.guardarUsuario(varId.get(),varNom.get(),varApPat.get(),varApMat.get(),varCor.get(),varOcup.get())
 Ventana= Tk()
 Ventana.title("CRUD de Usuarios")
 Ventana.geometry("500x400")
@@ -23,7 +21,7 @@ pestana3=ttk.Frame (panel)
 pestana4=ttk. Frame(panel)
 
 
-# Pestaña 1: Formulario de Usuarios 
+# Pestaña 1: Formulario de Usuarios a dar de alta
 
 titulo = Label(pestana1, text="Registro de usuarios", fg="blue", font="modern")
 titulo.pack()
