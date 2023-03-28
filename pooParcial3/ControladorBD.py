@@ -23,7 +23,7 @@ class ControladorBD:
         
         #2. validar parametros Vacios
         
-        if(Iden=="" or nom=="" or app=="" or apm=="" or cor=="" or oc==""):
+        if(Iden=="0" or nom=="" or app=="" or apm=="" or cor=="" or oc==""):
             messagebox.showwarning("Aguas","Formulario incompleto")
         else:
             #3. Preparamos el cursor, datos que voy a insertar y el querySQL
@@ -35,6 +35,5 @@ class ControladorBD:
             #4.Ejecutamos el insert y cerramos la conexion
             cursor.execute(qrInsert,datos)           
             conx.commit()
-            conx.close
             messagebox.showinfo("Exito","Usuario Guardado")
             

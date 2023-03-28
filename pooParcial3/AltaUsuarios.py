@@ -26,7 +26,7 @@ pestana4=ttk. Frame(panel)
 titulo = Label(pestana1, text="Registro de usuarios", fg="blue", font="modern")
 titulo.pack()
 
-varId = tk.StringVar()
+varId = tk.IntVar()
 lblId = Label(pestana1, text="ID: ")
 lblId.pack()
 txtId = Entry(pestana1, textvariable=varId)
