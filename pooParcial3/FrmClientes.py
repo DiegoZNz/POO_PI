@@ -1,12 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-from ControladorBD import * #1. Presentamos los archivos XD
+from ControladorBD import *
 
-#2. Crear un objeto de la clase controiador 
-controlador = ControladorBD()   #Nombre del objeto con la clase+
+controlador = ControladorBD()
 
-#3. Botonnnn
 def EjecutaInsert():
     controlador.guardarUsuario(varId.get(),varNom.get(),varApPat.get(),varApMat.get(),varCor.get(),varOcup.get())
 Ventana= Tk()
@@ -18,11 +16,14 @@ panel.pack(fill='both', expand='yes')
 pestana1=ttk.Frame (panel)
 pestana2=ttk.Frame (panel)
 pestana3=ttk.Frame (panel)
-pestana4=ttk. Frame(panel)
+
+panel.add (pestana1, text='Menu')
+panel.add (pestana2, text='Pedidos')
+panel.add (pestana3, text='Clientes')
+
 
 
 # Pestaña 1: Formulario de Usuarios a dar de alta
-
 titulo = Label(pestana1, text="Registro de usuarios", fg="blue", font="modern")
 titulo.pack()
 
@@ -65,7 +66,8 @@ txtOcup.pack()
 btnGuardar = Button(pestana1, text='Guardar Usuario', command=EjecutaInsert)
 btnGuardar.pack()
 
-panel.add (pestana1, text='Alta usuarios')
+
+
 
 
 
