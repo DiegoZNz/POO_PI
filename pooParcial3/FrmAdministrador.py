@@ -44,7 +44,6 @@ def modificar():
     selected = tree.selection()[0]
     # obtener los valores del elemento seleccionado
     values = tree.item(selected)['values']
-    # asignar los valores de Nombre, correo, contraseña(encriptada) a los entry's
     txtId.insert(0, values[0])
     txtNom.insert(0, values[1])
     txtDesc.insert(0, values[2])
@@ -97,8 +96,8 @@ panel.add (pestana3, text='Clientes')
 
 fuente = font.Font(family='Helvetica', size=12, weight='bold')
 
-# Pestaña 3: Consultar Usuarios
-TituloCons=Label(pestana1,text="Consultar Usuario", fg="blue").pack()
+# Pestaña 3: Consultar Productos
+TituloCons=Label(pestana1,text="Consultar Productos", fg="blue").pack()
 #Creación del treeview
 
 columns = ('ID', 'Nombre', 'Descripción', 'Precio', 'Categoria', 'Disponibilidad')
