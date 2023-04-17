@@ -15,7 +15,7 @@ def delete():
         panel.forget(3)
         panel.select(0)
     
-    
+
     
 def add():
     txtNom.delete("0", "end")
@@ -64,7 +64,6 @@ def UPD():
         panel.select(0)
         
         
-        
 def DeleteProd():
     if controlador.EliminarProducto(varIdUp.get()):
         txtId.delete("0", "end")
@@ -75,9 +74,6 @@ def DeleteProd():
         txtDisp.delete("0", "end") 
         panel.forget(3)
         panel.select(0)
-        
-    
-    
 
 Ventana= Tk()
 Ventana.title("Administradores")
@@ -96,7 +92,7 @@ panel.add (pestana3, text='Clientes')
 
 fuente = font.Font(family='Helvetica', size=12, weight='bold')
 
-# Pestaña 3: Consultar Productos
+# Pestaña 1: Consultar Productos
 TituloCons=Label(pestana1,text="Consultar Productos", fg="blue").pack()
 #Creación del treeview
 
@@ -113,12 +109,41 @@ tree.pack()
 btnUpdate=Button(pestana1, text='Actualizar',command=modificar)
 #pero se oculta para que se ejecute solamente cuando se presiona un registro(para evitar bugs y errores por los usuarios)
 btnUpdate.pack_forget()
-
 BtnAdd = Button(pestana1,text='Nuevo producto',command=add).pack()
 
 
+# Pestaña 2: Consultar Pedidos
+TituloCons=Label(pestana2,text="Consultar Pedidos", fg="blue").pack()
+#Creación del treeview
 
-#pestaña 4 invis
+columns2 = ('ID', 'Fecha', 'Estado', 'Total', 'Nombre')
+tree2 = ttk.Treeview(pestana2, columns=columns2, show='headings')
+tree2.heading("ID", text="ID")
+tree2.heading("Fecha", text="Fecha")
+tree2.heading("Estado", text="Estado")
+tree2.heading("Total", text="Total")
+tree2.heading("Nombre", text="Nombre")
+tree2.pack()
+
+
+
+
+# Pestaña 3: Consultar Clientes
+TituloCons=Label(pestana3,text="Consultar Clientes", fg="blue").pack()
+#Creación del treeview
+
+columns1 = ('ID', 'Nombre', 'ApellidoPat', 'ApellidoMat', 'Correo', 'Ocupación')
+tree1 = ttk.Treeview(pestana3, columns=columns1, show='headings')
+tree1.heading("ID", text="ID")
+tree1.heading("Nombre", text="Nombre")
+tree1.heading("ApellidoPat", text="Apellido P.")
+tree1.heading("ApellidoMat", text="Apellido M.")
+tree1.heading("Correo", text="Correo")
+tree1.heading("Ocupación", text="Ocupación")
+tree1.pack()
+
+
+#pestaña 4 Modificaciones
 titulo = Label(pestana4, text="Agregar Productos", fg="blue", font=fuente)
 titulo.pack()
 
@@ -158,9 +183,16 @@ txtDisp = tk.ttk.Combobox(pestana4, textvariable=varDisp,values=["Sí", "No"])
 txtDisp.pack()
 
 btna=Button(pestana4,text="Agregar",command=delete)
-btnactu=Button(pestana4,text="Actualizar",command=UPD)
-btnDelete=Button(pestana4,text="Eliminar!!!",command=DeleteProd)
+btnactu=Button(pestana4,bg="blue",fg="white",text="Actualizar",command=UPD)
+btnDelete=Button(pestana4,bg="red",fg="white",text="Eliminar!!!",command=DeleteProd)
 
+
+
+
+def actualizar(event):
+    ConsultarProd(event)
+    ConsultarClientes(event)
+    ConsultarPed(event)
 
 
 def ConsultarProd(event):
@@ -177,7 +209,43 @@ def ConsultarProd(event):
             #aqui se insertan los datos del ciclo en el tree por filas.
             tree.insert('', tk.END, values=(row))   
 #investigue esta opcion que ejecuta la función cada que se cambia a la pestaña indicada arriba.
-panel.bind('<<NotebookTabChanged>>', ConsultarProd)
+panel.bind('<<NotebookTabChanged>>', actualizar)
+
+
+
+def ConsultarClientes(event):
+    # verificar si la pestaña seleccionada es la pestaña de Consultar usuarios
+    current_tab = event.widget.tab('current')['text']
+    if current_tab == 'Clientes':
+        #si es así pues se borran los datos del treeview para evitar que se escriban muchas veces los datos
+        for row in tree1.get_children():
+            tree1.delete(row)
+        #aqui "a" va a mostrar los registros pero hare uso de un ciclo para mostrar todos los registros.
+        lista=controlador.MostrarClientes()
+        while lista:
+            row = lista.pop(0)  
+            #aqui se insertan los datos del ciclo en el tree por filas.
+            tree1.insert('', tk.END, values=(row))   
+#investigue esta opcion que ejecuta la función cada que se cambia a la pestaña indicada arriba.
+panel.bind('<<NotebookTabChanged>>', actualizar)
+
+
+def ConsultarPed(event):
+    # verificar si la pestaña seleccionada es la pestaña de Consultar usuarios
+    current_tab = event.widget.tab('current')['text']
+    if current_tab == 'Pedidos':
+        #si es así pues se borran los datos del treeview para evitar que se escriban muchas veces los datos
+        for row in tree2.get_children():
+            tree2.delete(row)
+        #aqui "a" va a mostrar los registros pero hare uso de un ciclo para mostrar todos los registros.
+        listap=controlador.MostrarPedidos()
+        while listap:
+            row = listap.pop(0)  
+            #aqui se insertan los datos del ciclo en el tree por filas.
+            tree2.insert('', tk.END, values=(row))   
+#investigue esta opcion que ejecuta la función cada que se cambia a la pestaña indicada arriba.
+panel.bind('<<NotebookTabChanged>>', actualizar)
+
 
 
 
