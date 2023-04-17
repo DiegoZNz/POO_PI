@@ -177,8 +177,7 @@ tree3.heading("Fecha", text="Fecha")
 tree3.heading("Precio", text="Precio")
 tree3.heading("Total", text="Total")
 tree3.pack()
-btnActuPedidos=Button(pestana3,text="Mostrar pedidos")
-btnActuPedidos.pack()
+
 
 
 def comprar():
@@ -279,9 +278,6 @@ def ConsultarPed(event):
             tree3.insert('', tk.END, values=(row1))   
 #investigue esta opcion que ejecuta la función cada que se cambia a la pestaña indicada arriba.
 panel.bind('<<NotebookTabChanged>>', actualizar)
-
-
-
 
 
 
