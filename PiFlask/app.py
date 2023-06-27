@@ -87,7 +87,7 @@ def encriptarContrasena(password):
 
 @app.route('/login')
 def dashboard():
-    return render_template('navbar.html')
+    return render_template('main.html')
 
 @app.route('/menu')
 def menu():
