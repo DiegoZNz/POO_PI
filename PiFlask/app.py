@@ -16,42 +16,44 @@ app.secret_key = "mi_clave_secreta"
 
 @app.route('/')
 def index():
-    # Ejecutar una consulta SQL simple
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT 1")
-    result = cursor.fetchone()
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT 1")
+        result = cursor.fetchone()
 
-    if result:
-        return render_template('login.html')
-    else:
-        return "No se pudo conectar a la base de datos"
-
+        if result:
+            return render_template('index.html')
+        else:
+            return "No se pudo conectar a la base de datos"
+    except Exception as e:
+        return f"Error de conexión a la base de datos: {str(e)}"
+    
+    
 @app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        Vmatricula = request.form['txtMatricula_login']
-        Vpassword = request.form['txtContrasena_login']
+    Vmatricula = request.form['txtMatricula_login']
+    Vpassword = request.form['txtContrasena_login']
 
-        CS = mysql.connection.cursor()
-        CS.execute("SELECT COUNT(*) FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
-        userCount = CS.fetchone()[0]
-        if userCount == 0:
-            flash(f"El usuario {Vmatricula} NO existe", 'error')
-            return redirect('/login')
+    CS = mysql.connection.cursor()
+    CS.execute("SELECT COUNT(*) FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
+    userCount = CS.fetchone()[0]
+    if userCount == 0:
+        flash(f"El usuario {Vmatricula} NO existe", 'error')
+        return redirect('/')
 
-        CS.execute("SELECT contrasena FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
-        conEncriptada = CS.fetchone()[0]
+    CS.execute("SELECT contrasena FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
+    conEncriptada = CS.fetchone()[0]
 
-        if bcrypt.checkpw(Vpassword.encode(), conEncriptada.encode()):
-            CS.execute("SELECT nombre from tbusuarios WHERE matricula =%s", (Vmatricula,))
-            nombre = CS.fetchone()[0]
-            flash(f'Bienvenido {nombre}!')
-        else:
-            flash("Contraseña incorrecta", 'error')
-        
-        
-
+    if bcrypt.checkpw(Vpassword.encode(), conEncriptada.encode()):
+        CS.execute("SELECT nombre from tbusuarios WHERE matricula =%s", (Vmatricula,))
+        nombre = CS.fetchone()[0]
+        flash(f'Bienvenido {nombre}!')
+        return redirect('/clientes')
+    else:
+        flash("Contraseña incorrecta", 'error')
+    
     return redirect(url_for('index'))
+
 
 @app.route('/guardar', methods=['POST'])
 def guardar():
@@ -85,21 +87,27 @@ def encriptarContrasena(password):
 
 
 
-@app.route('/login')
-def dashboard():
-    return render_template('main.html')
-
-@app.route('/menu')
+@app.route('/clientes')
 def menu():
-    return render_template('menu.html')
+    return render_template('clientes.html')
 
 @app.route('/pedidos')
 def pedidos():
-    return render_template('navbar.html')
+    return render_template('pedidos.html')
 
-@app.route('/clientes')
+@app.route('/agregar-admin')
 def clientes():
-    return render_template('clientes.html')
+    return render_template('adm_add.html')
+
+@app.route('/usuarios-penalizados')
+def upena():
+    return render_template('adm_Upenalizados.html')
+
+@app.route('/cerrar-sesion')
+def LogO():
+    return render_template('index.html')
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
