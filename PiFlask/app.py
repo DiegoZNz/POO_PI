@@ -28,7 +28,6 @@ def index():
     except Exception as e:
         return f"Error de conexión a la base de datos: {str(e)}"
     
-    
 @app.route('/login', methods=['POST'])
 def login():
     Vmatricula = request.form['txtMatricula_login']
@@ -41,18 +40,28 @@ def login():
         flash(f"El usuario {Vmatricula} NO existe", 'error')
         return redirect('/')
 
-    CS.execute("SELECT contrasena FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
-    conEncriptada = CS.fetchone()[0]
+    CS.execute("SELECT contrasena, id_tipo_permiso FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
+    result = CS.fetchone()
+    if result:
+        conEncriptada = result[0]
+        idTipoPermiso = result[1]
 
-    if bcrypt.checkpw(Vpassword.encode(), conEncriptada.encode()):
-        CS.execute("SELECT nombre from tbusuarios WHERE matricula =%s", (Vmatricula,))
-        nombre = CS.fetchone()[0]
-        flash(f'Bienvenido {nombre}!')
-        return redirect('/clientes')
+        if bcrypt.checkpw(Vpassword.encode(), conEncriptada.encode()):
+            CS.execute("SELECT nombre FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
+            nombre = CS.fetchone()[0]
+            flash(f'Bienvenido {nombre}!')
+
+            if idTipoPermiso == 1:
+                return redirect('/clientes')  # Ruta del administrador
+            elif idTipoPermiso == 2:
+                return redirect('/usrmenu')  # Ruta del cliente
+        else:
+            flash("Contraseña incorrecta", 'error')
     else:
-        flash("Contraseña incorrecta", 'error')
-    
+        flash("Error al obtener datos del usuario", 'error')
+
     return redirect(url_for('index'))
+
 
 
 @app.route('/guardar', methods=['POST'])
@@ -107,7 +116,13 @@ def upena():
 def LogO():
     return render_template('index.html')
 
+@app.route('/usrmenu')
+def userp():
+    return render_template('usr_menu.html')
 
+@app.route('/usrpedidos')
+def userMenu():
+    return render_template('usr_pedidos.html')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

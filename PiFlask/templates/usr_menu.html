@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAFEAPP</title>
+</head>
+<body>
+    {% extends 'usr_navbar.html' %}
+    {% block content %}
+        
+        <div class="cotn_principal">
+            <div class="cont_centrar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Categoría</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Disponibilidad</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Café Latte</td>
+                                        <td>Bebidas calientes</td>
+                                        <td>Delicioso café con leche</td>
+                                        <td>$3.99</td>
+                                        <td>Disponible</td>
+                                        <td>10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Croissant</td>
+                                        <td>Pasteles</td>
+                                        <td>Delicioso croissant recién horneado</td>
+                                        <td>$2.49</td>
+                                        <td>Disponible</td>
+                                        <td>15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Capuchino</td>
+                                        <td>Bebidas calientes</td>
+                                        <td>Delicioso capuchino con espuma de leche</td>
+                                        <td>$4.99</td>
+                                        <td>Agotado</td>
+                                        <td>0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    {% endblock %}
+</body>
+</html>
