@@ -183,15 +183,39 @@ def delete(id):
     flash('El producto fue eliminado')
     return redirect(url_for('menu'))
 
-
-
 @app.route('/pedidos')
 def pedidos():
     return render_template('pedidos.html')
 
 @app.route('/agregar-admin')
-def clientes():
+def addAdm():
     return render_template('adm_addAdm.html')
+
+@app.route('/save-adm', methods=['POST'])
+def saveAdm():
+    if request.method == 'POST':
+        Vnombre = request.form['txtnombre']
+        VapellidoPaterno = request.form['txtappaterno']
+        VapellidoMaterno = request.form['txtapmaterno']
+        Vmatricula = request.form['txtmatricula']
+        VcorreoElectronico = request.form['txtcorreo']
+        Vcontrasena = request.form['txtcontrasena'] 
+        Vpermiso = 1
+        
+        conH=encriptarContrasena(Vcontrasena)
+        
+        
+        CS = mysql.connection.cursor()
+        CS.execute("SELECT * FROM tbusuarios WHERE matricula=%s", (Vmatricula,))
+        usuario_existente = CS.fetchone()
+        if usuario_existente is not None:
+            flash(f"El usuario {Vmatricula} ya existe", 'error')
+            return redirect('/agregar-admin')
+        else:
+            CS.execute('INSERT INTO tbusuarios (nombre, ap, am, matricula, correo, contrasena, id_tipo_permiso) values (%s, %s, %s, %s, %s, %s, %s)', (Vnombre, VapellidoPaterno, VapellidoMaterno, Vmatricula, VcorreoElectronico, conH, Vpermiso))
+            mysql.connection.commit()
+            flash('El admin se ha agregado correctamente.')
+    return redirect(url_for('addAdm'))
 
 @app.route('/usuarios-penalizados')
 def upena():

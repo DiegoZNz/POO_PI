@@ -13,11 +13,11 @@
                 <form action="/delete/{{menu[0]}}" method="POST">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" name="txtNombre" value="{{ menu[1] }}">
+                        <input type="text" class="form-control" name="txtNombre" value="{{ menu[1] }}" disabled>
                     </div>
                     <div class="form-group">
                         <label for="categoria">Categoría</label>
-                        <select class="form-control" name="txtCategoria">
+                        <select class="form-control" name="txtCategoria" disabled>
                             {% for categoria in listcategorias %}
                                 {% if categoria[1] == menu[2] %}
                                     <option value="{{ categoria[0] }}" selected>{{ categoria[1] }}</option>
@@ -29,22 +29,22 @@
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripción</label>
-                        <input type="text" class="form-control" name="txtDescripcion" value="{{ menu[3] }}">
+                        <input type="text" class="form-control" name="txtDescripcion" value="{{ menu[3] }}" disabled>
                     </div>
                     <div class="form-group">
                         <label for="precio">Precio</label>
-                        <input type="number" class="form-control" name="txtPrecio" step="0.01" value="{{ menu[4] }}">
+                        <input type="number" class="form-control" name="txtPrecio" step="0.01" value="{{ menu[4] }}" disabled>
                     </div>
                     <div class="form-group">
                         <label for="disponibilidad">Disponibilidad</label>
-                        <select class="form-control" name="txtDisponibilidad">
+                        <select class="form-control" name="txtDisponibilidad" disabled>
                             <option value="Sí" {% if menu[5] == 'Sí' %} selected {% endif %}>Sí</option>
                             <option value="No" {% if menu[5] == 'No' %} selected {% endif %}>No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="stock">Stock</label>
-                        <input type="number" class="form-control" name="txtStock" value="{{ menu[6] }}">
+                        <input type="number" class="form-control" name="txtStock" value="{{ menu[6] }}" disabled>
                     </div>
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
